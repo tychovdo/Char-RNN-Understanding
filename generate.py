@@ -32,6 +32,7 @@ def generate(model, prime_str='A', predict_len=100, temperature=0.8, cuda=False)
         top_i = torch.multinomial(output_dist, 1)[0]
 
         # Add predicted character to string and use as next input
+        all_characters = string.printable
         predicted_char = all_characters[top_i]
         predicted += predicted_char
         hiddens.append(hidden.data.cpu().numpy())

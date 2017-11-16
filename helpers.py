@@ -6,20 +6,13 @@ import math
 import torch
 
 # Reading and un-unicode-encoding data
-all_characters = string.printable
-n_characters = len(all_characters)
-
-def read_file(filename):
-    file = unidecode.unidecode(open(filename, encoding='utf-8', errors='ignore').read())
-    print(len(file))
-    return file, len(file)
 
 # Turning a string into a tensor
-def char_tensor(string):
-    tensor = torch.zeros(len(string)).long()
-    for c in range(len(string)):
+def char_tensor(text):
+    tensor = torch.zeros(len(text)).long()
+    for c in range(len(text)):
         try:
-            tensor[c] = all_characters.index(string[c])
+            tensor[c] = string.printable.index(text[c])
         except:
             continue
     return tensor
