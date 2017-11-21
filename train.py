@@ -25,25 +25,20 @@ parser.add_argument('--batch_size', type=int, default=100)
 parser.add_argument('--cuda', action='store_true')
 args = parser.parse_args()
 
-# PARAMETERS: cuda
 args.cuda = args.cuda and torch.cuda.is_available()
 if args.cuda:
     print("CUDA Enabled")
 
-# PARAMETERS: save file
 if not args.save_file:
     args.save_file = '{}.model'.format(args.filename.split('/')[-1])
-
 
 def train(model, optim, x, t):
     criterion = nn.CrossEntropyLoss()
 
-    hidden = model.init_hidden(args.batch_size)
-    if args.cuda:
-        hidden = hidden.cuda()
     model.zero_grad()
     loss = 0
 
+    hidden = None
     for c in range(args.chunk_len):
         output, hidden = model(x[:,c], hidden)
         loss += criterion(output.view(args.batch_size, -1), t[:,c])
@@ -90,9 +85,6 @@ def main():
 
     start = time.time()
 
-    all_losses = []
-    loss_avg = 0
-
     # Load training file
     train_file = unidecode.unidecode(open(args.filename, encoding='utf-8', errors='ignore').read())
 
@@ -101,11 +93,10 @@ def main():
         print("Training for %d epochs..." % args.n_epochs)
         for epoch in range(1, args.n_epochs + 1):
             x, t = get_train_chunk(train_file, args.chunk_len, args.batch_size)
-            loss = train(model, optim, x, t)
-            loss_avg += loss
+            train_loss = train(model, optim, x, t)
 
             if epoch % args.print_every == 0:
-                print('[%s (%d %d%%) %.4f]' % (time_since(start), epoch, epoch / args.n_epochs * 100, loss))
+                print('[%s (%d %d%%) %.4f]' % (time_since(start), epoch, epoch / args.n_epochs * 100, train_loss))
                 generated, _ = generate(model, 'a', cuda=args.cuda)
                 print(generated, '\n')
 

@@ -22,16 +22,21 @@ class CharRNN(nn.Module):
         
         self.decoder = nn.Linear(hidden_size, output_size)
 
-    def forward(self, input, hidden):
-        batch_size = input.size(0)
-        encoded = self.encoder(input)
-        output, hidden = self.rnn(encoded.view(1, batch_size, -1), hidden)
-        output = self.decoder(output.view(batch_size, -1))
-        return output, hidden
+    def forward(self, x, h=None):
+        batch_size = x.size(0)
 
-    def init_hidden(self, batch_size):
-        if self.rnn_class == "lstm":
-            return (Variable(torch.zeros(self.n_layers, batch_size, self.hidden_size)),
-                    Variable(torch.zeros(self.n_layers, batch_size, self.hidden_size)))
-        return Variable(torch.zeros(self.n_layers, batch_size, self.hidden_size))
+        if type(h) == type(None):
+            if self.rnn_class == "lstm":
+                h = (Variable(torch.zeros(self.n_layers, batch_size, self.hidden_size)),
+                     Variable(torch.zeros(self.n_layers, batch_size, self.hidden_size)))
+            else:
+                h = Variable(torch.zeros(self.n_layers, batch_size, self.hidden_size))
+                
+        if next(self.parameters()).is_cuda:
+            h = h.cuda()
 
+        x = self.encoder(x)
+        x, h = self.rnn(x.view(1, batch_size, -1), h)
+        x = self.decoder(x.view(batch_size, -1))
+
+        return x, h

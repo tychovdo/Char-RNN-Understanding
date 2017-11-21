@@ -7,13 +7,14 @@ from helpers import *
 from model import *
 
 def generate(model, prime_str='A', predict_len=100, temperature=0.8, cuda=False):
-    hidden = model.init_hidden(1)
     prime_input = Variable(char_tensor(prime_str).unsqueeze(0))
-
+    hidden = None
+    
     if cuda:
         model.cuda()
-        hidden = hidden.cuda()
         prime_input = prime_input.cuda()
+    else:
+        model.cpu()
 
     predicted = prime_str
 
