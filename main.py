@@ -132,11 +132,11 @@ def main():
                 print(generated, '\n')
 
         print("Saving...")
-        save(model, args.filename)
+        save(model, args.save_file)
 
     except KeyboardInterrupt:
         print("Saving before quit...")
-        save(model, '{}_Q{}'.format(args.filename, epoch))
+        save(model, '{}_Q{}'.format(args.save_file, epoch))
 
 if __name__=='__main__':
     main()
