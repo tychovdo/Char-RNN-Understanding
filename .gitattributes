@@ -1,3 +1,6 @@
 data/linux/linux.txt filter=lfs diff=lfs merge=lfs -text
+<<<<<<< HEAD
 data/linux/test.txt filter=lfs diff=lfs merge=lfs -text
 data/linux/train.txt filter=lfs diff=lfs merge=lfs -text
+=======
+>>>>>>> 2badd524df6944f3ccfb539b64655d223e72ce6e
