@@ -32,7 +32,8 @@ if args.cuda:
 
 def train(model, optim, x, t):
     ''' Train a batch '''
-    # Hidden state
+    model.train()
+
     h = model.init_hidden(args.batch_size)
     if args.cuda:
         if args.rnn_class == 'lstm':
@@ -57,8 +58,29 @@ def train(model, optim, x, t):
     return loss.data[0] / args.chunk_len
 
 def test(model, optim, x, t):
+    ''' Train a batch '''
+    model.test()
+
+    h = model.init_hidden(args.batch_size)
+    if args.cuda:
+        if args.rnn_class == 'lstm':
+            h = (h[0].cuda(), h[1].cuda())
+        else:
+            h = h.cuda()
+
+    criterion = nn.CrossEntropyLoss()
+
+    loss = 0
+    for c in range(args.chunk_len):
+        y, h = model(x[:,c], h)
+        loss += criterion(y.view(args.batch_size, -1), t[:, c])
+
+    return loss.data[0] / args.chunk_len
+
+def test2(model, optim, x, t):
     ''' Test a batch '''
-    # Hidden state
+    model.test()
+
     h = model.init_hidden(1)
     if args.cuda:
         if args.rnn_class == 'lstm':
