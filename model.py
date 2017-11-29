@@ -24,7 +24,6 @@ class CharRNN(nn.Module):
 
     def forward(self, x, h=None):
         batch_size = x.size(0)
-
         encoded = self.encoder(x)
         y, h = self.rnn(encoded.view(1, batch_size, -1), h)
         y = self.decoder(y.view(batch_size, -1))

@@ -18,11 +18,11 @@ parser.add_argument('--n_epochs', type=int, default=100000)
 parser.add_argument('--print_every', type=int, default=100)
 parser.add_argument('--hidden_size', type=int, default=512)
 parser.add_argument('--n_layers', type=int, default=3)
-parser.add_argument('--learning_rate', type=float, default=0.01)
-parser.add_argument('--chunk_len', type=int, default=200)
+parser.add_argument('--learning_rate', type=float, default=2e-4)
+parser.add_argument('--chunk_len', type=int, default=128)
 parser.add_argument('--rnn_class', type=str, default='gru')
-parser.add_argument('--batch_size', type=int, default=50)
-parser.add_argument('--dropout', type=float, default=0.5)
+parser.add_argument('--batch_size', type=int, default=128)
+parser.add_argument('--dropout', type=float, default=0.2)
 parser.add_argument('--cuda', action='store_true')
 args = parser.parse_args()
 
@@ -45,8 +45,11 @@ def train(model, optim, x, t):
     model.zero_grad()
     loss = 0
     for c in range(args.chunk_len):
-        y, h= model(x[:,c], h)
-        loss += criterion(y.view(args.batch_size, -1), t[:,c])
+        y, h = model(x[:,c], h)
+        loss += criterion(y.view(args.batch_size, -1), t[:, c])
+
+    # Gradient clipping
+    nn.utils.clip_grad_norm(model.parameters(), 5)
 
     loss.backward()
     optim.step()
@@ -56,7 +59,7 @@ def train(model, optim, x, t):
 def test(model, optim, x, t):
     ''' Test a batch '''
     # Hidden state
-    h = model.init_hidden(args.batch_size)
+    h = model.init_hidden(1)
     if args.cuda:
         if args.rnn_class == 'lstm':
             h = ([0].cuda(), h[1].cuda())
@@ -64,12 +67,13 @@ def test(model, optim, x, t):
             h = h.cuda()
 
     criterion = nn.CrossEntropyLoss()
-    loss = 0
-    for c in range(args.chunk_len):
-        y, h= model(x[:,c], h)
-        loss += criterion(y.view(args.batch_size, -1), t[:,c])
 
-    return loss.data[0] / args.chunk_len
+    loss = 0
+    for c in range(x.size(1)):
+        y, h = model(x[:,c], h)
+        loss += criterion(y.view(1, -1), t[:,c])
+
+    return loss.data[0] / x.size(1)
 
 def save(model, filename):
     ''' Save a model '''
@@ -94,6 +98,7 @@ def get_batch(f, chunk_len, batch_size):
 
     return Variable(x), Variable(t)
 
+
 def main():
     all_characters = string.printable
     n_characters = len(all_characters)
@@ -102,6 +107,8 @@ def main():
     model = CharRNN(n_characters, args.hidden_size, n_characters,
                     rnn_class=args.rnn_class, n_layers=args.n_layers,
                     dropout=args.dropout)
+    for weights in model.parameters():
+        nn.init.uniform(weights, -0.08, 0.08)
     print(model)
 
     # Init optimizer
@@ -124,7 +131,10 @@ def main():
             train_loss = train(model, optim, x, t)
 
             if epoch % args.print_every == 0:
-                x, t = get_batch(test_file, args.chunk_len, args.batch_size)
+                x = Variable(char_tensor(test_file[:-1]).view(1, -1))
+                t = Variable(char_tensor(test_file[1:]).view(1, -1))
+                if args.cuda:
+                    x, t = x.cuda(), t.cuda()
                 test_loss = test(model, optim, x, t)
 
                 print('[%s (%d %d%%) train:%.4f test:%.4f]' % (time_since(start), epoch, epoch / args.n_epochs * 100, train_loss, test_loss))
