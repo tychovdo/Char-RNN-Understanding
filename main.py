@@ -151,19 +151,19 @@ def main():
         train_loss = 0
         for epoch in range(1, args.n_epochs + 1):
             x, t = get_batch(train_file, args.chunk_len, args.batch_size)
-            train_loss += train(model, optim, x, t)
+            train_losses.append(train(model, optim, x, t))
 
             if epoch % args.print_every == 0:
                 test_count = 100
-                test_loss = 0
+                test_losses = []
                 for i in range(test_count):
                     x, t  = get_batch(test_file, args.chunk_len, args.batch_size)
-                    test_loss += test(model, optim, x, t)
-                test_loss / test_count
-                train_loss / args.print_every
+                    test_losses.append(test(model, optim, x, t))
+                test_loss = np.mean(test_losses)
+                train_loss = np.mean(train_losses)
 
                 print('[%s (%d %d%%) train:%.4f test:%.4f]' % (time_since(start), epoch, epoch / args.n_epochs * 100, train_loss, test_loss))
-                train_loss = 0
+                train_losses = []
 
                 generated, _ = generate(model, 'a', cuda=args.cuda)
                 print(generated, '\n')
