@@ -148,7 +148,7 @@ def main():
     # Training procedure
     try:
         print("Training for %d epochs..." % args.n_epochs)
-        train_loss = 0
+        train_losses = []
         for epoch in range(1, args.n_epochs + 1):
             x, t = get_batch(train_file, args.chunk_len, args.batch_size)
             train_losses.append(train(model, optim, x, t))
