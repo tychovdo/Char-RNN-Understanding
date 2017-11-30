@@ -10,6 +10,8 @@ Train a simple model
 python main.py data/tiny-shakespeare/train.txt data/tiny-shakespeare/test.txt models/simple.model --cuda
 ```
 
+Example analyis can be found in the iPython Notebooks
+
 ### Requirements
 
 - `python=3.6.3`

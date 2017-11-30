@@ -17,9 +17,9 @@ parser.add_argument('save_file', type=str)
 parser.add_argument('--n_epochs', type=int, default=2000)
 parser.add_argument('--print_every', type=int, default=100)
 parser.add_argument('--hidden_size', type=int, default=100)
-parser.add_argument('--n_layers', type=int, default=1)
-parser.add_argument('--learning_rate', type=float, default=2e-4)
-parser.add_argument('--chunk_len', type=int, default=128)
+parser.add_argument('--n_layers', type=int, default=2)
+parser.add_argument('--learning_rate', type=float, default=0.01)
+parser.add_argument('--chunk_len', type=int, default=200)
 parser.add_argument('--rnn_class', type=str, default='gru')
 parser.add_argument('--batch_size', type=int, default=128)
 parser.add_argument('--dropout', type=float, default=0.0)
@@ -171,6 +171,9 @@ def main():
 
                 print("Saving...")
                 save(model, '{}_E{}'.format(args.save_file, epoch))
+
+        print("Saving final file: ", args.save_file)
+        save(model, args.save_file)
 
     except KeyboardInterrupt:
         print("Saving before quit...")
