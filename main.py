@@ -14,15 +14,15 @@ parser = argparse.ArgumentParser()
 parser.add_argument('train_file', type=str)
 parser.add_argument('test_file', type=str)
 parser.add_argument('save_file', type=str)
-parser.add_argument('--n_epochs', type=int, default=100000)
+parser.add_argument('--n_epochs', type=int, default=2000)
 parser.add_argument('--print_every', type=int, default=100)
-parser.add_argument('--hidden_size', type=int, default=512)
-parser.add_argument('--n_layers', type=int, default=3)
+parser.add_argument('--hidden_size', type=int, default=100)
+parser.add_argument('--n_layers', type=int, default=1)
 parser.add_argument('--learning_rate', type=float, default=2e-4)
 parser.add_argument('--chunk_len', type=int, default=128)
 parser.add_argument('--rnn_class', type=str, default='gru')
 parser.add_argument('--batch_size', type=int, default=128)
-parser.add_argument('--dropout', type=float, default=0.2)
+parser.add_argument('--dropout', type=float, default=0.0)
 parser.add_argument('--cuda', action='store_true')
 args = parser.parse_args()
 
@@ -112,9 +112,10 @@ def get_batch(f, chunk_len, batch_size):
         t = torch.LongTensor(batch_size, chunk_len)
 
     for bi in range(batch_size):
-        start_index = random.randint(0, len(f) - chunk_len)
+        start_index = random.randint(0, len(f) - chunk_len - 1)
         end_index = start_index + chunk_len + 1
         chunk = f[start_index:end_index]
+
         x[bi] = char_tensor(chunk[:-1])
         t[bi] = char_tensor(chunk[1:])
 
