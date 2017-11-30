@@ -1,2 +1,2 @@
-# char-rnn-visualization
-Visualization of char-rnn
+# Understanding Character-level RNN in PyTorch
+
