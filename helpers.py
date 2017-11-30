@@ -5,6 +5,8 @@ import time
 import math
 import torch
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn
 
 # Turning a string into a tensor
 def char_tensor(text):
