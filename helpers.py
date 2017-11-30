@@ -4,8 +4,7 @@ import random
 import time
 import math
 import torch
-
-# Reading and un-unicode-encoding data
+import numpy as np
 
 # Turning a string into a tensor
 def char_tensor(text):
