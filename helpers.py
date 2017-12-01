@@ -4,8 +4,9 @@ import random
 import time
 import math
 import torch
-
-# Reading and un-unicode-encoding data
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Turning a string into a tensor
 def char_tensor(text):
@@ -24,7 +25,7 @@ def time_since(since):
     s -= m * 60
     return '%dm %ds' % (m, s)
 
-def wrap_colored_text(text, colors, W=20):
+def wrap_colored_text(text, colors, W):
     ''' Wrap text with hidden units to certain width '''
     new_text, new_colors = [], []
     for char, color in zip(text, colors):
