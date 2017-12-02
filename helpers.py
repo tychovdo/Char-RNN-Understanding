@@ -25,6 +25,27 @@ def time_since(since):
     s -= m * 60
     return '%dm %ds' % (m, s)
 
+# Training helper
+def get_batch(f, chunk_len, batch_size):
+    ''' Get a batch from file '''
+    if args.cuda:
+        x = torch.cuda.LongTensor(batch_size, chunk_len)
+        t = torch.cuda.LongTensor(batch_size, chunk_len)
+    else:
+        x = torch.LongTensor(batch_size, chunk_len)
+        t = torch.LongTensor(batch_size, chunk_len)
+
+    for bi in range(batch_size):
+        start_index = random.randint(0, len(f) - chunk_len - 1)
+        end_index = start_index + chunk_len + 1
+        chunk = f[start_index:end_index]
+
+        x[bi] = char_tensor(chunk[:-1])
+        t[bi] = char_tensor(chunk[1:])
+
+    return Variable(x), Variable(t)
+
+# Plotting helper
 def wrap_colored_text(text, colors, W):
     ''' Wrap text with hidden units to certain width '''
     new_text, new_colors = [], []
