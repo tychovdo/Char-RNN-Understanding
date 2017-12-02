@@ -66,14 +66,14 @@ def main():
         print("Training for %d epochs..." % args.n_epochs)
         train_losses = []
         for epoch in range(1, args.n_epochs + 1):
-            x, t = get_batch(train_file, args.chunk_len, args.batch_size)
+            x, t = get_batch(train_file, args.chunk_len, args.batch_size, args.cuda)
             train_losses.append(train(model, optim, x, t))
 
             if epoch % args.print_every == 0:
                 test_count = 100
                 test_losses = []
                 for i in range(test_count):
-                    x, t  = get_batch(test_file, args.chunk_len, args.batch_size)
+                    x, t  = get_batch(test_file, args.chunk_len, args.batch_size, args.cuda)
                     test_losses.append(test(model, optim, x, t))
                 test_loss = np.mean(test_losses)
                 train_loss = np.mean(train_losses)

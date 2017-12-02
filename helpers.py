@@ -26,9 +26,9 @@ def time_since(since):
     return '%dm %ds' % (m, s)
 
 # Training helper
-def get_batch(f, chunk_len, batch_size):
+def get_batch(f, chunk_len, batch_size, cuda):
     ''' Get a batch from file '''
-    if args.cuda:
+    if cuda:
         x = torch.cuda.LongTensor(batch_size, chunk_len)
         t = torch.cuda.LongTensor(batch_size, chunk_len)
     else:
