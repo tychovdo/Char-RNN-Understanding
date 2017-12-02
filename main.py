@@ -31,6 +31,72 @@ args.cuda = args.cuda and torch.cuda.is_available()
 if args.cuda:
     print("CUDA Enabled")
 
+def train(model, optim, x, t):
+    ''' Train a batch '''
+    model.train()
+
+    h = model.init_hidden(args.batch_size)
+    if args.cuda:
+        if args.rnn_class == 'lstm':
+            h = (h[0].cuda(), h[1].cuda())
+        else:
+            h = h.cuda()
+
+    criterion = nn.CrossEntropyLoss()
+
+    model.zero_grad()
+    loss = 0
+    for c in range(args.chunk_len):
+        y, h = model(x[:,c], h)
+        loss += criterion(y.view(args.batch_size, -1), t[:, c])
+
+    # Gradient clipping
+    nn.utils.clip_grad_norm(model.parameters(), 5)
+
+    loss.backward()
+    optim.step()
+
+    return loss.data[0] / args.chunk_len
+
+def test(model, x, t):
+    ''' Train a batch '''
+    model.eval()
+
+    h = model.init_hidden(args.batch_size)
+    if args.cuda:
+        if args.rnn_class == 'lstm':
+            h = (h[0].cuda(), h[1].cuda())
+        else:
+            h = h.cuda()
+
+    criterion = nn.CrossEntropyLoss()
+
+    loss = 0
+    for c in range(args.chunk_len):
+        y, h = model(x[:,c], h)
+        loss += criterion(y.view(args.batch_size, -1), t[:, c])
+
+    return loss.data[0] / args.chunk_len
+
+def get_batch(f, chunk_len, batch_size, cuda):
+    ''' Get a batch from file '''
+    if cuda:
+        x = torch.cuda.LongTensor(batch_size, chunk_len)
+        t = torch.cuda.LongTensor(batch_size, chunk_len)
+    else:
+        x = torch.LongTensor(batch_size, chunk_len)
+        t = torch.LongTensor(batch_size, chunk_len)
+
+    for bi in range(batch_size):
+        start_index = random.randint(0, len(f) - chunk_len - 1)
+        end_index = start_index + chunk_len + 1
+        chunk = f[start_index:end_index]
+
+        x[bi] = char_tensor(chunk[:-1])
+        t[bi] = char_tensor(chunk[1:])
+
+    return Variable(x), Variable(t)
+
 def save(model, filename):
     ''' Save a model '''
     torch.save(model, filename)
