@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from torch.autograd import Variable
+import torch.nn as nn
 
 # Turning a string into a tensor
 def char_tensor(text):
