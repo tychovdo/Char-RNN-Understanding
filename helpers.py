@@ -53,7 +53,7 @@ def wrap_colored_text(text, colors, W, tabsize=4):
 
     return np.array(new_text).reshape(-1, W), np.array(new_colors).reshape(-1, W)
 
-def plot_colored_text(text, colors, W=60, title=None, save_file=None):
+def plot_colored_text(text, colors, W=80, title=None, save_file=None):
     wrapped_text, wrapped_colors = wrap_colored_text(text, colors, W, tabsize=4)
 
     H = len(wrapped_text)

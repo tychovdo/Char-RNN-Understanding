@@ -6,7 +6,7 @@ import numpy as np
 from helpers import *
 from model import *
 
-def generate(model, prime_str='A', predict_len=100, temperature=0.8, cuda=False, output_hiddens=False):
+def generate(model, prime_str='A', predict_len=100, temperature=0.8, cuda=False):
     prime_input = Variable(char_tensor(prime_str).unsqueeze(0))
     hidden = None
     
@@ -36,16 +36,16 @@ def generate(model, prime_str='A', predict_len=100, temperature=0.8, cuda=False,
         all_characters = string.printable
         predicted_char = all_characters[top_i]
         predicted += predicted_char
-        if output_hiddens:
+        if type(hidden) == tuple:
+            hiddens.append(np.concatenate([x.data.cpu().numpy() for x in hidden]))
+        else:
             hiddens.append(hidden.data.cpu().numpy())
+            
         x = Variable(char_tensor(predicted_char).unsqueeze(0))
         if cuda:
             x = x.cuda()
 
-    if output_hiddens:
-        return predicted[-predict_len:], np.array(hiddens)[-predict_len:]
-    else:
-        return predicted[-predict_len:], None
+    return predicted[-predict_len:], np.array(hiddens)[-predict_len:]
 
 # Run as standalone script
 if __name__ == '__main__':
