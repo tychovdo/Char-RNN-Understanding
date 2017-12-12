@@ -6,6 +6,7 @@ import os
 import string
 
 from helpers import *
+from train import *
 from model import *
 from generate import *
 
@@ -57,7 +58,7 @@ def train(model, optim, x, t):
 
     return loss.data[0] / args.chunk_len
 
-def test(model, optim, x, t):
+def test(model, x, t):
     ''' Train a batch '''
     model.eval()
 
@@ -76,31 +77,6 @@ def test(model, optim, x, t):
         loss += criterion(y.view(args.batch_size, -1), t[:, c])
 
     return loss.data[0] / args.chunk_len
-
-def test2(model, optim, x, t):
-    ''' Test a batch '''
-    model.eval()
-
-    h = model.init_hidden(1)
-    if args.cuda:
-        if args.rnn_class == 'lstm':
-            h = ([0].cuda(), h[1].cuda())
-        else:
-            h = h.cuda()
-
-    criterion = nn.CrossEntropyLoss()
-
-    loss = 0
-    for c in range(x.size(1)):
-        y, h = model(x[:,c], h)
-        loss += criterion(y.view(1, -1), t[:,c])
-
-    return loss.data[0] / x.size(1)
-
-def save(model, filename):
-    ''' Save a model '''
-    torch.save(model, filename)
-    print('Saved model as {}.'.format(filename))
 
 def get_batch(f, chunk_len, batch_size):
     ''' Get a batch from file '''
@@ -121,6 +97,10 @@ def get_batch(f, chunk_len, batch_size):
 
     return Variable(x), Variable(t)
 
+def save(model, filename):
+    ''' Save a model '''
+    torch.save(model, filename)
+    print('Saved model as {}.'.format(filename))
 
 def main():
     all_characters = string.printable
@@ -130,6 +110,7 @@ def main():
     model = CharRNN(n_characters, args.hidden_size, n_characters,
                     rnn_class=args.rnn_class, n_layers=args.n_layers,
                     dropout=args.dropout)
+
     for weights in model.parameters():
         nn.init.uniform(weights, -0.08, 0.08)
     print(model)
