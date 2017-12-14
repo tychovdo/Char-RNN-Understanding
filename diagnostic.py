@@ -1,4 +1,5 @@
 from generate import *
+import gc
 
 
 def validate_hypothesis(model, diag_classifier, hypothesis, train_len=50,
@@ -43,5 +44,11 @@ def validate_hypothesis(model, diag_classifier, hypothesis, train_len=50,
         plot_colored_text(test_texts[:text_len], test_hiddens[:text_len, resp_neuron],
                           title='Most Responsible Neuron {}'.format(resp_neuron),
                           save_file=save_resp)
+        
+    del(train_hyps)
+    del(train_hiddens)
+    del(test_texts)
+    del(test_hiddens)
+    gc.collect()
     
     return test_hyps, pred_hyps
