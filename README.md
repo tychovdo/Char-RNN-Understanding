@@ -12,6 +12,13 @@ python main.py data/tiny-shakespeare/train.txt data/tiny-shakespeare/test.txt mo
 
 Example analyis can be found in the iPython Notebooks
 
+### Analysis preview
+
+Some previews of what a hypothesis test by a diagnostic classifier might look like:
+
+![Example analysis 1](https://raw.githubusercontent.com/tychovdo/char-rnn-visualization/master/plots/ex1.png)
+![Example analysis 1](https://raw.githubusercontent.com/tychovdo/char-rnn-visualization/master/plots/ex2.png)
+
 ### Requirements
 
 - `python=3.6.3`
