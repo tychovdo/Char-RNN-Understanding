@@ -10,14 +10,20 @@ Train a simple model
 python main.py data/tiny-shakespeare/train.txt data/tiny-shakespeare/test.txt models/simple.model --cuda
 ```
 
-Example analyis can be found in the iPython Notebooks
+Example analysis can be found in the iPython Notebooks
 
-### Analysis preview
+### Diagnostic Classifier
 
-Some previews of what a hypothesis test by a diagnostic classifier might look like:
+Diagnostic classifiers can be used to verify a hypothesis of information in hidden states of a recurrent network
 
 ![Example analysis 1](https://raw.githubusercontent.com/tychovdo/char-rnn-visualization/master/plots/ex1.png)
 ![Example analysis 1](https://raw.githubusercontent.com/tychovdo/char-rnn-visualization/master/plots/ex2.png)
+
+### Responsible Neuron
+
+Diagnostic classifiers can be used to automatically find neurons encoded to perform specific subtasks
+
+![Example analysis 3](https://raw.githubusercontent.com/tychovdo/char-rnn-visualization/master/plots/ex3.png)
 
 ### Requirements
 
