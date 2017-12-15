@@ -14,14 +14,16 @@ Example analysis can be found in the iPython Notebooks
 
 ### Diagnostic Classifiers
 
-Diagnostic classifiers can be used to verify a hypothesis of information in hidden states of a recurrent network
+Diagnostic classifiers can be used to verify hypotheses about information in the hidden representations of a recurrent networks.
+The figures below show how how a diagnostic classifier verifies that the network captures the position in line and whether characters are part of a comment.
 
 ![Example analysis 1](https://raw.githubusercontent.com/tychovdo/char-rnn-visualization/master/plots/ex1.png)
 ![Example analysis 2](https://raw.githubusercontent.com/tychovdo/char-rnn-visualization/master/plots/ex2.png)
 
 ### Most Responsible Neuron
 
-Diagnostic classifiers can also used to automatically find neurons encoded to perform specific subtasks
+Diagnostic classifiers can also used to automatically find neurons encoded to perform specific subtasks.
+The figure below shows a neuron that is active inside quotation marks.
 
 ![Most responsible neuron](https://raw.githubusercontent.com/tychovdo/char-rnn-visualization/master/plots/ex4.png)
 
