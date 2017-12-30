@@ -25,7 +25,7 @@ def generate(model, prime_str='A', predict_len=100, temperature=0.8, cuda=False)
     x = prime_input[:,-1]
     
     hiddens = []
-    for p in range(predict_len + len(prime_str) - 2):
+    for p in range(predict_len + len(prime_str) - 1):
         output, hidden = model(x, hidden)
         
         # Sample from the network as a multinomial distribution
