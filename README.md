@@ -1,6 +1,7 @@
 # Understanding Character-level RNN-LMs in PyTorch
 
-This repository contains a PyTorch implementation for Recurrent Neural Network Language Models (RNN-LMs). Visualization of hidden RNN layers (see [this](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) blog post by Andrej Karpathy). Analysis using Diagnostic Classifier ([Diagnostic Classifiers Revealing how Neural Networks Process Hierarchical Structure](http://ceur-ws.org/Vol-1773/CoCoNIPS_2016_paper6.pdf))
+This repository contains a PyTorch implementation for Recurrent Neural Network Language Models (RNN-LMs). Visualization of hidden RNN layers (see [this](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) blog post by Andrej Karpathy). Analysis using Diagnostic Classifier ([
+Visualisation and 'diagnostic classifiers' reveal how recurrent and recursive neural networks process hierarchical structure](https://arxiv.org/abs/1711.10203))
 
 ### Example Usage
 
@@ -35,5 +36,5 @@ The figure below shows a neuron that is active inside quotation marks.
 ### Acknowledgements
 
 - [Visualizing and Understanding Recurrent Networks](https://arxiv.org/abs/1506.02078) by Karpathy, et. al (2015)
-- [Diagnostic Classifiers Revealing how Neural Networks Process Hierarchical Structure](http://ceur-ws.org/Vol-1773/CoCoNIPS_2016_paper6.pdf) by Dieuwke Hupkes, et al. (2016)
+- [Visualisation and 'diagnostic classifiers' reveal how recurrent and recursive neural networks process hierarchical structure](https://arxiv.org/abs/1711.10203) by Dieuwke Hupkes, et al. (2016)
 - [Example PyTorch character-level RNN](https://github.com/spro/char-rnn.pytorch) by Sean Robertson
