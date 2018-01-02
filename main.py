@@ -6,7 +6,6 @@ import os
 import string
 
 from helpers import *
-from train import *
 from model import *
 from generate import *
 
@@ -17,8 +16,8 @@ parser.add_argument('test_file', type=str)
 parser.add_argument('save_file', type=str)
 parser.add_argument('--n_epochs', type=int, default=2000)
 parser.add_argument('--print_every', type=int, default=500)
-parser.add_argument('--hidden_size', type=int, default=100)
-parser.add_argument('--n_layers', type=int, default=2)
+parser.add_argument('--hidden_size', type=int, default=128)
+parser.add_argument('--n_layers', type=int, default=1)
 parser.add_argument('--learning_rate', type=float, default=0.01)
 parser.add_argument('--chunk_len', type=int, default=200)
 parser.add_argument('--rnn_class', type=str, default='gru')
@@ -140,7 +139,7 @@ def main():
                 test_losses = []
                 for i in range(test_count):
                     x, t  = get_batch(test_file, args.chunk_len, args.batch_size)
-                    test_losses.append(test(model, optim, x, t))
+                    test_losses.append(test(model, x, t))
                 test_loss = np.mean(test_losses)
                 train_loss = np.mean(train_losses)
 
