@@ -3,6 +3,10 @@
 This repository contains a PyTorch implementation for Recurrent Neural Network Language Models (RNN-LMs). Visualization of hidden RNN layers (see [this](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) blog post by Andrej Karpathy). Analysis using Diagnostic Classifier ([
 Visualisation and 'diagnostic classifiers' reveal how recurrent and recursive neural networks process hierarchical structure](https://arxiv.org/abs/1711.10203))
 
+### Paper
+
+Paper: [Quantitatively Understanding Recurrent Networks](https://raw.githubusercontent.com/tychovdo/Char-RNN-Understanding/master/Quantitatively_understanding_recurrent_networks.pdf)
+
 ### Example Usage
 
 Train a simple model
