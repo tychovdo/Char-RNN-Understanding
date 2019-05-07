@@ -1,8 +1,8 @@
 # Understanding Character-level RNN-LMs in PyTorch
 
-This repository contains a PyTorch implementation for Recurrent Neural Network Language Models (RNN-LMs).
+This repository contains a PyTorch implementation for Recurrent Neural Network Language Models (RNN-LMs) and code to visualize and analyse its behaviour.
 
-For more information, check out this [blogpost](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) by Andrej Karpathy and this [paper](https://arxiv.org/abs/1711.10203) about Analysis using Diagnostic Classifier by Dieuwke Hupkes et. al.
+For more information about the analysis, please check out this [blogpost](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) by Andrej Karpathy on the activations of individual neurons in RNNs and this [paper](https://arxiv.org/abs/1711.10203) about analysis using diagnostic classifiers by Dieuwke Hupkes et. al.
 
 ### Paper
 
