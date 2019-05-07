@@ -2,7 +2,7 @@
 
 This repository contains a PyTorch implementation for Recurrent Neural Network Language Models (RNN-LMs).
 
-For more information, check out this [blogpost](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) by Andrej Karpathy) and this ([paper](https://arxiv.org/abs/1711.10203)) on Analysis using Diagnostic Classifier by Dieuwke Hupkes et. al.
+For more information, check out this [blogpost](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) by Andrej Karpathy and this [paper](https://arxiv.org/abs/1711.10203) about Analysis using Diagnostic Classifier by Dieuwke Hupkes et. al.
 
 ### Paper
 
