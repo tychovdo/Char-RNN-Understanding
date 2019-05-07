@@ -4,9 +4,9 @@ This repository contains a PyTorch implementation for Recurrent Neural Network L
 
 For more information about the analysis, please check out this [blogpost](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) by Andrej Karpathy on the activations of individual neurons in RNNs and this [paper](https://arxiv.org/abs/1711.10203) about analysis using diagnostic classifiers by Dieuwke Hupkes et. al.
 
-### Paper
+### Report/paper
 
-Paper: [Quantitatively Understanding Recurrent Networks](https://raw.githubusercontent.com/tychovdo/Char-RNN-Understanding/master/Quantitatively_understanding_recurrent_networks.pdf)
+A report on this project: [Quantitatively Understanding Recurrent Networks](https://raw.githubusercontent.com/tychovdo/Char-RNN-Understanding/master/Quantitatively_understanding_recurrent_networks.pdf)
 
 ### Example Usage
 
